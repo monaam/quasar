@@ -22,6 +22,14 @@ pnpm create quasar
 bun create quasar
 ```
 
+### Non-interactive usage
+
+You can pass answers as command line flags to skip the interactive prompts:
+
+```bash
+npm init quasar -- --projectType app --projectFolder my-app --name my-app --engine vite-2
+```
+
 ## Supporting Quasar
 
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
