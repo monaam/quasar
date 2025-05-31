@@ -2,6 +2,7 @@
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import prompts from 'prompts'
 
 // display banner
 console.log()
@@ -26,6 +27,28 @@ const argv = parseArgs(process.argv.slice(2), {
 
   boolean: [ 'n' ],
 })
+
+// prepare prompt overrides from CLI parameters
+if ('_' in argv) {
+  delete argv._
+}
+if ('n' in argv) {
+  argv.nogit = argv.n
+  delete argv.n
+}
+for (const [ key, val ] of Object.entries(argv)) {
+  if (Array.isArray(val)) {
+    argv[key] = val.flatMap(v => typeof v === 'string' && v.includes(',')
+      ? v.split(',')
+      : v)
+  }
+  else if (typeof val === 'string') {
+    if (val === 'true') argv[key] = true
+    else if (val === 'false') argv[key] = false
+    else if (val.includes(',')) argv[key] = val.split(',')
+  }
+}
+prompts.override(argv)
 
 const defaultProjectFolder = 'quasar-project'
 const scope = {}
